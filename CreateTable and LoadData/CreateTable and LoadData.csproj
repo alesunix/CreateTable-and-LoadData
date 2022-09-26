@@ -15,4 +15,10 @@
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.70" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TNSNames.ora">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
