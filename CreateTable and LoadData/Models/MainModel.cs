@@ -22,24 +22,24 @@ namespace CreateTable_and_LoadData.Models
         }
         public string ConnTest()
         {
-            return GetSingleResult($@"SELECT sysdate dTime, vl FROM sys_config WHERE param = 'logsat'", connString).ToString();
+            return GetSingleResult($@"SELECT sysdate dTime, vl FROM sys_config WHERE param = 'logsat'", СonnString).ToString();
         }
         public void CreateTableAndLoadData()
         {
             string columns = string.Join(", ", listColumn.ToArray());
             if (!string.IsNullOrEmpty(columns))
             {
-                SetQuery($@"DROP TABLE TEMP_TABLE PURGE", connString);
+                SetQuery($@"DROP TABLE TEMP_TABLE PURGE", СonnString);
                 Message = "OK";
-                SetQuery($@"CREATE TABLE TEMP_TABLE ({columns})", connString);
+                SetQuery($@"CREATE TABLE TEMP_TABLE ({columns})", СonnString);
 
                 int count = 0;
                 columns = columns.Replace(" VARCHAR2(300)", "");
-                string server = connString.Split('=')[3];
+                string server = СonnString.Split('=')[3];
                 foreach (DataRow item in dt.Rows)
                 {
                     string rowParse = string.Join(", ", item.ItemArray.Select(x => "'" + x.ToString() + "'").ToArray());
-                    SetQuery($@"INSERT INTO TEMP_TABLE ({columns}) VALUES ({rowParse})", connString);
+                    SetQuery($@"INSERT INTO TEMP_TABLE ({columns}) VALUES ({rowParse})", СonnString);
                     count++;
                     if (Message != "OK")
                         break;

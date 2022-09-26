@@ -6,9 +6,15 @@ namespace CreateTable_and_LoadData.Models
     public class BaseModel
     {
         public string Message { get; set; } = "OK";
-
-        private static string[] line = File.ReadAllLines("Config.ini");
-        public static string connString = line[0].ToString();
+        public static string СonnString { get; set; }
+        public void GenerateConn(string sid)
+        {
+            var connString = new OracleConnectionStringBuilder();
+            connString.UserID = "Login";
+            connString.Password = "Password";
+            connString.DataSource = sid;
+            СonnString = connString.ToString();
+        }
         public DataTable GetTable(string query, string connString)
         {
             using (OracleConnection con = new OracleConnection(connString))
