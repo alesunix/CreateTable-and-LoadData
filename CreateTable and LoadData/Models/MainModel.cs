@@ -12,11 +12,12 @@ namespace CreateTable_and_LoadData.Models
             List<string> DbNames = new List<string>();
             string RegEx = @"[\n][\s]*[^\(][a-zA-Z0-9_.]+[\s]*=[\s]*\(";
             FileInfo file = new FileInfo("TNSNames.ora");
+
             int count;
-            for (count = 0; count < Regex.Matches(File.ReadAllText(file.FullName), RegEx).Count; count++)
+            var regex = Regex.Matches(File.ReadAllText(file.FullName), RegEx);
+            for (count = 0; count < regex.Count; count++)
             {
-                DbNames.Add(Regex.Matches(File.ReadAllText(file.FullName), RegEx)[count].Value.Trim().Substring(0,
-                    Regex.Matches(File.ReadAllText(file.FullName), RegEx)[count].Value.Trim().IndexOf(" ")).ToUpper());
+                DbNames.Add(regex[count].Value.Trim().Substring(0, regex[count].Value.Trim().IndexOf(" ")).ToUpper());
             }
             return DbNames;
         }
