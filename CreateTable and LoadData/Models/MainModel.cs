@@ -23,16 +23,16 @@ namespace CreateTable_and_LoadData.Models
         }
         public string ConnTest()
         {
-            return GetSingleResult($@"SELECT sysdate dTime, vl FROM sys_config WHERE param = 'logsat'", СonnString).ToString();
+            return GetSingleResult($@"SELECT sysdate dTime, vl FROM sys_config WHERE param = 'logsat'").ToString();
         }
         public void CreateTableAndLoadData()
         {
             string columns = string.Join(", ", listColumn.ToArray());
             if (!string.IsNullOrEmpty(columns))
             {
-                SetQuery($@"DROP TABLE TEMP_TABLE PURGE", СonnString);
+                SetQuery($@"DROP TABLE TEMP_TABLE PURGE");
                 Message = "OK";
-                SetQuery($@"CREATE TABLE TEMP_TABLE ({columns})", СonnString);
+                SetQuery($@"CREATE TABLE TEMP_TABLE ({columns})");
 
                 int count = 0;
                 columns = columns.Replace(" VARCHAR2(300)", "");
@@ -40,7 +40,7 @@ namespace CreateTable_and_LoadData.Models
                 foreach (DataRow item in dt.Rows)
                 {
                     string rowParse = string.Join(", ", item.ItemArray.Select(x => "'" + x.ToString() + "'").ToArray());
-                    SetQuery($@"INSERT INTO TEMP_TABLE ({columns}) VALUES ({rowParse})", СonnString);
+                    SetQuery($@"INSERT INTO TEMP_TABLE ({columns}) VALUES ({rowParse})");
                     count++;
                     if (Message != "OK")
                         break;

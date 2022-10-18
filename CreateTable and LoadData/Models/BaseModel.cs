@@ -15,9 +15,9 @@ namespace CreateTable_and_LoadData.Models
             connString.DataSource = sid;
             СonnString = connString.ToString();
         }
-        public DataTable GetTable(string query, string connString)
+        public DataTable GetTable(string query)
         {
-            using (OracleConnection con = new OracleConnection(connString))
+            using (OracleConnection con = new OracleConnection(СonnString))
             {
                 DataTable dt = new DataTable();
                 try
@@ -42,9 +42,9 @@ namespace CreateTable_and_LoadData.Models
                 }
             }
         }
-        public void SetQuery(string query, string connString)
+        public void SetQuery(string query)
         {
-            using (OracleConnection con = new OracleConnection(connString))
+            using (OracleConnection con = new OracleConnection(СonnString))
             {
                 try
                 {
@@ -62,9 +62,9 @@ namespace CreateTable_and_LoadData.Models
                 }
             }
         }
-        public object GetSingleResult(string query, string connString)
+        public object GetSingleResult(string query)
         {
-            using (OracleConnection con = new OracleConnection(connString))
+            using (OracleConnection con = new OracleConnection(СonnString))
             {
                 try
                 {
