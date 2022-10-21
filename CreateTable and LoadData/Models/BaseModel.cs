@@ -15,34 +15,12 @@ namespace CreateTable_and_LoadData.Models
             connString.DataSource = sid;
             СonnString = connString.ToString();
         }
-        public DataTable GetTable(string query)
-        {
-            using (OracleConnection con = new OracleConnection(СonnString))
-            {
-                DataTable dt = new DataTable();
-                try
-                {
-                    con.Open();
-                    var cmd = new OracleCommand(query, con);
-                    OracleDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-                    dt.Load(dr);
-                    Message = "OK";
-                    return dt;
-                }
-                catch (OracleException ex)
-                {
-                    dt.Columns.Add("Error", typeof(string));
-                    dt.Rows.Add(ex.Message);
-                    Message = ex.Message;
-                    return dt;
-                }
-                finally
-                {
-                    Finally(con);
-                }
-            }
-        }
-        public void SetQuery(string query)
+        /// <summary>
+        /// Выполняет sql-выражение ExecuteNonQuery. Подходит для INSERT, UPDATE, DELETE, CREATE
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>Возвращает количество измененных записей</returns>
+        public int SetQuery(string query)
         {
             using (OracleConnection con = new OracleConnection(СonnString))
             {
@@ -51,10 +29,12 @@ namespace CreateTable_and_LoadData.Models
                     con.Open();
                     var cmd = new OracleCommand(query, con).ExecuteNonQuery();
                     Message = "OK";
+                    return cmd;
                 }
                 catch (OracleException ex)
                 {
                     Message = ex.Message;
+                    return -1;
                 }
                 finally
                 {
@@ -62,6 +42,11 @@ namespace CreateTable_and_LoadData.Models
                 }
             }
         }
+        /// <summary>
+        /// Выполняет sql-выражение ExecuteScalar. Подходит для sql-выражения SELECT в паре с одной из встроенных функций SQL, например, Min, Max, Sum, Count.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns>Возвращает object - первый стобец первой строки</returns>
         public object GetSingleResult(string query)
         {
             using (OracleConnection con = new OracleConnection(СonnString))
