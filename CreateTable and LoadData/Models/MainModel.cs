@@ -39,7 +39,7 @@ namespace CreateTable_and_LoadData.Models
                 string server = СonnString.Split('=')[3];
                 foreach (DataRow item in dt.Rows)
                 {
-                    string rowParse = string.Join(", ", item.ItemArray.Select(x => "'" + x.ToString() + "'").ToArray());
+                    string rowParse = string.Join(", ", item.ItemArray.Select(x => "'" + x.ToString().Replace("'", "\'\'") + "'").ToArray());
                     SetQuery($@"INSERT INTO TEMP_TABLE ({columns}) VALUES ({rowParse})");
                     count++;
                     if (Message != "OK")
