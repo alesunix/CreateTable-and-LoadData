@@ -31,7 +31,6 @@ namespace CreateTable_and_LoadData.Models
             if (!string.IsNullOrEmpty(columns))
             {
                 SetQuery($@"DROP TABLE TEMP_TABLE PURGE");
-                Message = "OK";
                 SetQuery($@"CREATE TABLE TEMP_TABLE ({columns})");
 
                 int count = 0;
